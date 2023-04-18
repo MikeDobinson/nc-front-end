@@ -27,6 +27,31 @@
 .App-link {
   color: #61dafb;
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.review-img {
+  max-width: 90vw;
+}
+
+.review-list {
+  display: inline-block;
+}
+
+.review-list-category {
+  float: left;
+}
+
+.review-list-author {
+  float: right;
+}
+
+.review-list-footer {
+  clear: both;
+}
 
 @keyframes App-logo-spin {
   from {
