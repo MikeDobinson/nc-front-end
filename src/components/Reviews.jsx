@@ -2,12 +2,16 @@ import React from 'react';
 import { useState } from 'react';
 import * as api from '../api';
 import ReviewListCard from './ReviewListCard';
+import { useEffect } from 'react';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
-  api.fetchReviews().then((reviews) => {
-    setReviews(reviews);
-  });
+
+  useEffect(() => {
+    api.fetchReviews().then((reviews) => {
+      setReviews(reviews);
+    });
+  }, []);
 
   return (
     <div>
