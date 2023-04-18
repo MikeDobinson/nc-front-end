@@ -7,18 +7,22 @@ export default function ReviewListCard({ review }) {
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <h3>{review.title}</h3>
+        <div className="review-list-footer-header">
+          <p className="review-list-left-align">Category: {review.category}</p>
+          <p className="review-list-right-align">Written by: {review.owner}</p>
+        </div>
         <img
           className="review-img"
           src={review.review_img_url}
           alt="The reviewed game"
         />
+        <div className="review-list-footer-header">
+          <p className="review-list-left-align">
+            Comments: {review.comment_count}
+          </p>
+          <p className="review-list-right-align">Likes: {review.votes}</p>
+        </div>
         <br />
-        <p>
-          <div className="review-list-footer">
-            <p className="review-list-category">Category: {review.category}</p>
-            <p className="review-list-author">Written by: {review.owner}</p>
-          </div>
-        </p>
       </CardContent>
     </Card>
   );

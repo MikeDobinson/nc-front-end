@@ -41,15 +41,15 @@ ul {
   display: inline-block;
 }
 
-.review-list-category {
+.review-list-left-align {
   float: left;
 }
 
-.review-list-author {
+.review-list-right-align {
   float: right;
 }
 
-.review-list-footer {
+.review-list-footer-header {
   clear: both;
 }
 
