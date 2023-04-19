@@ -13,14 +13,14 @@ export default function CommentList({ review_id }) {
   if (!comments.length)
     return (
       <div>
-        <h2>Comments for review {review_id} </h2>
-        <p>No comments yet</p>
+        <h2>Comments</h2>
+        <p>No comments yet..</p>
       </div>
     );
 
   return (
     <div>
-      <h2>Comments for review {review_id} </h2>
+      <h2>Comments</h2>
       <ul className="comment-list">
         {comments.map((comment) => {
           return (
