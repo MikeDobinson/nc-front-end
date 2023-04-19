@@ -27,3 +27,9 @@ export const fetchCategories = () => {
     return data.categories;
   });
 };
+
+export const fetchReviewsByCategory = (category) => {
+  return api.get(`/reviews?category=${category}`).then(({ data }) => {
+    return data.reviews;
+  });
+};

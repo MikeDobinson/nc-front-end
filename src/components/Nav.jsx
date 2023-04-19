@@ -13,15 +13,14 @@ export default function Nav() {
 
   return (
     <nav>
-      <Link to="/reviews">All</Link>
-      {' | '}
+      <Link to="/">All</Link>
       {categories.map((category) => {
         return (
           <span key={category.slug}>
+            {' | '}
             <Link to={`/reviews/category/${category.slug}`}>
               {category.slug}
             </Link>
-            {' | '}
           </span>
         );
       })}
