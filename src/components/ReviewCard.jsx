@@ -3,6 +3,7 @@ import * as api from '../api';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import CommentList from './CommentList';
 
 export default function ReviewCard() {
   const { review_id } = useParams();
@@ -26,6 +27,7 @@ export default function ReviewCard() {
           <p>Comments: {review.comment_count}</p>
           <p>Likes: {review.votes}</p>
           <p>Category: {review.category}</p>
+          <CommentList review_id={review_id} />
         </li>
       </ul>
     </div>
