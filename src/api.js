@@ -21,3 +21,9 @@ export const fetchCommentsByReviewId = (review_id) => {
     return data.comments;
   });
 };
+
+export const fetchCategories = () => {
+  return api.get('/categories').then(({ data }) => {
+    return data.categories;
+  });
+};
