@@ -57,24 +57,7 @@ export default function ArticleCard() {
   return (
     <div>
       <br />
-      <Button
-        value="1"
-        key="like-button"
-        variant="contained"
-        color="primary"
-        onClick={handleVote}
-      >
-        Like
-      </Button>{' '}
-      <Button
-        value="-1"
-        key="dislike-button"
-        variant="contained"
-        color="primary"
-        onClick={handleVote}
-      >
-        Dislike
-      </Button>
+
       <h2>Article</h2>
       <ul className="article-list">
         <li key={article.article_id}>
@@ -83,6 +66,27 @@ export default function ArticleCard() {
           <p>{article.body}</p>
           <p>Comments: {article.comment_count}</p>
           <p>Likes: {article.votes + votesToAdd}</p>
+          <p>
+            {' '}
+            <Button
+              value="1"
+              key="like-button"
+              variant="contained"
+              color="primary"
+              onClick={handleVote}
+            >
+              Like
+            </Button>{' '}
+            <Button
+              value="-1"
+              key="dislike-button"
+              variant="contained"
+              color="primary"
+              onClick={handleVote}
+            >
+              Dislike
+            </Button>
+          </p>
           <p>Topic: {article.topic}</p>
           <CommentList article_id={article_id} />
         </li>
