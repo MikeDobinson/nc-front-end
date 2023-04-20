@@ -33,23 +33,23 @@ ul {
   padding: 0;
 }
 
-.review-img {
+.article-img {
   max-width: 90vw;
 }
 
-.review-list {
+.article-list {
   display: inline-block;
 }
 
-.review-list-left-align {
+.article-list-left-align {
   float: left;
 }
 
-.review-list-right-align {
+.article-list-right-align {
   float: right;
 }
 
-.review-list-footer-header {
+.article-list-footer-header {
   clear: both;
 }
 

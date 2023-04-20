@@ -4,23 +4,21 @@ import { useEffect, useState } from 'react';
 import * as api from '../api';
 
 export default function Nav() {
-  const [categories, setCategories] = useState([]);
+  const [topics, setTopics] = useState([]);
   useEffect(() => {
-    api.fetchCategories().then((categories) => {
-      setCategories(categories);
+    api.fetchTopics().then((topics) => {
+      setTopics(topics);
     });
   }, []);
 
   return (
     <nav>
       <Link to="/">All</Link>
-      {categories.map((category) => {
+      {topics.map((topic) => {
         return (
-          <span key={category.slug}>
+          <span key={topic.slug}>
             {' | '}
-            <Link to={`/reviews/category/${category.slug}`}>
-              {category.slug}
-            </Link>
+            <Link to={`/articles/topic/${topic.slug}`}>{topic.slug}</Link>
           </span>
         );
       })}
