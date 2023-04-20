@@ -33,3 +33,11 @@ export const fetchArticlesByTopic = (topic) => {
     return data.articles;
   });
 };
+
+export const patchArticleVotes = (article_id, vote) => {
+  return api
+    .patch(`/articles/${article_id}`, { inc_votes: vote })
+    .then(({ data }) => {
+      return data.article;
+    });
+};
