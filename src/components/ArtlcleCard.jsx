@@ -19,20 +19,33 @@ export default function ArticleCard() {
 
   const [likeCounter, setLikeCounter] = useState(0);
   const [dislikeCounter, setDislikeCounter] = useState(0);
+  const [error, setError] = useState(null);
 
   const handleVote = (event) => {
     const vote = event.target.value;
     const actualVote = () => {
       setVotesToAdd((currVotes) => currVotes + +vote);
-      api.patchArticleVotes(article_id, +vote).catch((err) => {
-        setVotesToAdd((currVotes) => currVotes - +vote);
-      });
+      api
+        .patchArticleVotes(article_id, +vote)
+        .then(() => {
+          setError(null);
+        })
+        .catch(() => {
+          setVotesToAdd((currVotes) => currVotes - +vote);
+          setError('Error! Please try again later');
+        });
     };
     const resetVote = () => {
       setVotesToAdd((currVotes) => currVotes - +vote);
-      api.patchArticleVotes(article_id, -vote).catch((err) => {
-        setVotesToAdd((currVotes) => currVotes + +vote);
-      });
+      api
+        .patchArticleVotes(article_id, -vote)
+        .then(() => {
+          setError(null);
+        })
+        .catch(() => {
+          setVotesToAdd((currVotes) => currVotes + +vote);
+          setError('Error! Please try again later');
+        });
     };
 
     if (vote === '1') {
@@ -86,6 +99,8 @@ export default function ArticleCard() {
             >
               Dislike
             </Button>
+            <br />
+            {error ? <p>{error}</p> : null}
           </p>
           <p>Topic: {article.topic}</p>
           <CommentList article_id={article_id} />
