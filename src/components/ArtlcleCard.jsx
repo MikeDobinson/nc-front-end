@@ -5,21 +5,23 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import CommentList from './CommentList';
 import Button from '@mui/material/Button';
+import CommentSubmitForm from './CommentSubmitForm';
 
 export default function ArticleCard() {
   const { article_id } = useParams();
   const [votesToAdd, setVotesToAdd] = useState(0);
   const [article, setArticle] = useState({});
+  const [addComment, setAddComment] = useState(false);
+  const [likeCounter, setLikeCounter] = useState(0);
+  const [dislikeCounter, setDislikeCounter] = useState(0);
+  const [error, setError] = useState(null);
+  const [commentToAdd, setCommentToAdd] = useState({});
 
   useEffect(() => {
     api.fetchArticleById(article_id).then((article) => {
       setArticle(article);
     });
   }, [article_id]);
-
-  const [likeCounter, setLikeCounter] = useState(0);
-  const [dislikeCounter, setDislikeCounter] = useState(0);
-  const [error, setError] = useState(null);
 
   const handleVote = (event) => {
     const vote = event.target.value;
@@ -67,6 +69,10 @@ export default function ArticleCard() {
     }
   };
 
+  const handleAddComment = () => {
+    setAddComment((currAddComment) => !currAddComment);
+  };
+
   return (
     <div>
       <br />
@@ -103,7 +109,16 @@ export default function ArticleCard() {
             {error ? <p>{error}</p> : null}
           </p>
           <p>Topic: {article.topic}</p>
-          <CommentList article_id={article_id} />
+          <Button onClick={handleAddComment} variant="contained">
+            Add Comment
+          </Button>
+          {addComment ? (
+            <CommentSubmitForm setCommentToAdd={setCommentToAdd} />
+          ) : null}
+          <br />
+          <br />
+
+          <CommentList article_id={article_id} commentToAdd={commentToAdd} />
         </li>
       </ul>
     </div>

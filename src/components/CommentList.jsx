@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import * as api from '../api';
 
-export default function CommentList({ article_id }) {
+export default function CommentList({ article_id, commentToAdd }) {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     api.fetchCommentsByArticleId(article_id).then((comments) => {
@@ -22,6 +22,14 @@ export default function CommentList({ article_id }) {
     <div>
       <h2>Comments</h2>
       <ul className="comment-list">
+        {commentToAdd ? (
+          <div>
+            <li key={commentToAdd.comment_id}>
+              <h3>{commentToAdd.username}</h3>
+              <p>{commentToAdd.body}</p>
+            </li>
+          </div>
+        ) : null}
         {comments.map((comment) => {
           return (
             <li key={comment.comment_id}>
