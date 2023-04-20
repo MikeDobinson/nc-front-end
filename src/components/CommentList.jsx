@@ -2,13 +2,13 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import * as api from '../api';
 
-export default function CommentList({ review_id }) {
+export default function CommentList({ article_id }) {
   const [comments, setComments] = useState([]);
   useEffect(() => {
-    api.fetchCommentsByReviewId(review_id).then((comments) => {
+    api.fetchCommentsByArticleId(article_id).then((comments) => {
       setComments(comments);
     });
-  }, [review_id]);
+  }, [article_id]);
 
   if (!comments.length)
     return (

@@ -1,35 +1,35 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://nc-games-afbm.onrender.com/api',
+  baseURL: 'https://nc-news-v2.onrender.com/api',
 });
 
-export const fetchReviews = () => {
-  return api.get('/reviews').then(({ data }) => {
-    return data.reviews;
+export const fetchArticles = () => {
+  return api.get('/articles').then(({ data }) => {
+    return data.articles;
   });
 };
 
-export const fetchReviewById = (review_id) => {
-  return api.get(`/reviews/${review_id}`).then(({ data }) => {
-    return data.review;
+export const fetchArticleById = (article_id) => {
+  return api.get(`/articles/${article_id}`).then(({ data }) => {
+    return data.article;
   });
 };
 
-export const fetchCommentsByReviewId = (review_id) => {
-  return api.get(`/reviews/${review_id}/comments`).then(({ data }) => {
+export const fetchCommentsByArticleId = (article_id) => {
+  return api.get(`/articles/${article_id}/comments`).then(({ data }) => {
     return data.comments;
   });
 };
 
-export const fetchCategories = () => {
-  return api.get('/categories').then(({ data }) => {
-    return data.categories;
+export const fetchTopics = () => {
+  return api.get('/topics').then(({ data }) => {
+    return data.topics;
   });
 };
 
-export const fetchReviewsByCategory = (category) => {
-  return api.get(`/reviews?category=${category}`).then(({ data }) => {
-    return data.reviews;
+export const fetchArticlesByTopic = (topic) => {
+  return api.get(`/articles?topic=${topic}`).then(({ data }) => {
+    return data.articles;
   });
 };

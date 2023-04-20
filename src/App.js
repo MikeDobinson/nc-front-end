@@ -1,7 +1,7 @@
 import './App.css';
 import Header from './components/Header';
-import Reviews from './components/Reviews';
-import ReviewCard from './components/ReviewCard';
+import Articles from './components/Articles';
+import ArticleCard from './components/ArtlcleCard';
 import Nav from './components/Nav';
 import { Route, Routes } from 'react-router-dom';
 
@@ -11,10 +11,10 @@ function App() {
       <Header />
       <Nav />
       <Routes>
-        <Route path="/" element={<Reviews />} />
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="/reviews/:review_id" element={<ReviewCard />} />
-        <Route path="/reviews/category/:category" element={<Reviews />} />
+        <Route path="/" element={<Articles />} />
+        <Route path="/articles" element={<Articles />} />
+        <Route path="/articles/:article_id" element={<ArticleCard />} />
+        <Route path="/articles/topic/:topic" element={<Articles />} />
       </Routes>
     </div>
   );
