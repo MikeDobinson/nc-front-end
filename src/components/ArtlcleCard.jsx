@@ -24,11 +24,15 @@ export default function ArticleCard() {
     const vote = event.target.value;
     const actualVote = () => {
       setVotesToAdd((currVotes) => currVotes + +vote);
-      api.patchArticleVotes(article_id, +vote);
+      api.patchArticleVotes(article_id, +vote).catch((err) => {
+        setVotesToAdd((currVotes) => currVotes - +vote);
+      });
     };
     const resetVote = () => {
       setVotesToAdd((currVotes) => currVotes - +vote);
-      api.patchArticleVotes(article_id, -vote);
+      api.patchArticleVotes(article_id, -vote).catch((err) => {
+        setVotesToAdd((currVotes) => currVotes + +vote);
+      });
     };
 
     if (vote === '1') {
