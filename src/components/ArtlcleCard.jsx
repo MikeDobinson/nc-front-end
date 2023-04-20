@@ -17,23 +17,41 @@ export default function ArticleCard() {
     });
   }, [article_id]);
 
-  const handleClick = (event) => {
-    event.target.disabled = true;
-    setVotesToAdd(1);
-    api.patchArticleVotes(article_id, 1);
+  const handleVote = (event) => {
+    if (votesToAdd === 0) {
+      setVotesToAdd(+event.target.value);
+    } else {
+      setVotesToAdd(0);
+    }
+    api.patchArticleVotes(article_id, +event.target.value);
   };
   return (
     <div>
       <br />
-      <Button variant="contained" color="primary" onClick={handleClick}>
-        Like This Article
+      <Button
+        value="1"
+        key="like-button"
+        variant="contained"
+        color="primary"
+        onClick={handleVote}
+      >
+        Like
+      </Button>{' '}
+      <Button
+        value="-1"
+        key="dislike-button"
+        variant="contained"
+        color="primary"
+        onClick={handleVote}
+      >
+        Dislike
       </Button>
       <h2>Article</h2>
       <ul className="article-list">
         <li key={article.article_id}>
           <h3>{article.title}</h3>
           <p>Written by: {article.author}</p>
-          <p>{article.article_body}</p>
+          <p>{article.body}</p>
           <p>Comments: {article.comment_count}</p>
           <p>Likes: {article.votes + votesToAdd}</p>
           <p>Topic: {article.topic}</p>
