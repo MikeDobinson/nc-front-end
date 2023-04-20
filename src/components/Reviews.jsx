@@ -3,10 +3,17 @@ import { useState } from 'react';
 import * as api from '../api';
 import ReviewListCard from './ReviewListCard';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const { category } = useParams();
+
+  useEffect(() => {
+    api.fetchReviewsByCategory(category).then((reviews) => {
+      setReviews(reviews);
+    });
+  }, [category]);
 
   useEffect(() => {
     api.fetchReviews().then((reviews) => {
