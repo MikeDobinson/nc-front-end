@@ -6,12 +6,18 @@ import { useEffect } from 'react';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
+  const { category } = useParams();
 
   useEffect(() => {
     api.fetchReviews().then((reviews) => {
       setReviews(reviews);
     });
   }, []);
+  useEffect(() => {
+    api.fetchReviewsByCategory(category).then((reviews) => {
+      setReviews(reviews);
+    });
+  }, [category]);
 
   return (
     <div>
