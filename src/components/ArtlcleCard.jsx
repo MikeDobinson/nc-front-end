@@ -17,14 +17,39 @@ export default function ArticleCard() {
     });
   }, [article_id]);
 
+  const [likeCounter, setLikeCounter] = useState(0);
+  const [dislikeCounter, setDislikeCounter] = useState(0);
+
   const handleVote = (event) => {
-    if (votesToAdd === 0) {
-      setVotesToAdd(+event.target.value);
-    } else {
-      setVotesToAdd(0);
+    const vote = event.target.value;
+    const actualVote = () => {
+      setVotesToAdd((currVotes) => currVotes + +vote);
+      api.patchArticleVotes(article_id, +vote);
+    };
+    const resetVote = () => {
+      setVotesToAdd((currVotes) => currVotes - +vote);
+      api.patchArticleVotes(article_id, -vote);
+    };
+
+    if (vote === '1') {
+      setLikeCounter((currLikes) => currLikes + 1);
+    } else if (vote === '-1') {
+      setDislikeCounter((currDislikes) => currDislikes + 1);
     }
-    api.patchArticleVotes(article_id, +event.target.value);
+
+    if (
+      (likeCounter % 2 === 0 && vote === '1') ||
+      (dislikeCounter % 2 === 0 && vote === '-1')
+    ) {
+      actualVote();
+    } else if (
+      (likeCounter % 2 === 1 && vote === '1') ||
+      (dislikeCounter % 2 === 1 && vote === '-1')
+    ) {
+      resetVote();
+    }
   };
+
   return (
     <div>
       <br />
