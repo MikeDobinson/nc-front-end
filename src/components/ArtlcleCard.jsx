@@ -19,6 +19,8 @@ export default function ArticleCard() {
   const [error, setError] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentToAdd, setCommentToAdd] = useState(false);
+  const [clicked, setClicked] = useState('');
+  const [disabled, setDisabled] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,6 +31,8 @@ export default function ArticleCard() {
   }, [article_id, setIsLoading]);
 
   const handleVote = (event) => {
+    changeColour(event.target.value);
+
     const vote = event.target.value;
     const actualVote = () => {
       setVotesToAdd((currVotes) => currVotes + +vote);
@@ -74,6 +78,17 @@ export default function ArticleCard() {
     }
   };
 
+  const changeColour = (value) => {
+    if (clicked !== value) {
+      setClicked(value);
+      setDisabled(value * -1);
+    } else if (clicked === value) {
+      setClicked('');
+      setDisabled(0);
+    }
+    console.log('disabled :>> ', disabled);
+  };
+
   const handleAddComment = () => {
     setAddComment((currAddComment) => !currAddComment);
   };
@@ -95,19 +110,21 @@ export default function ArticleCard() {
           <p>
             {' '}
             <Button
+              disabled={disabled === 1 ? true : false}
               value="1"
               key="like-button"
               variant="contained"
-              color="primary"
+              color={clicked === '1' ? 'success' : 'primary'}
               onClick={handleVote}
             >
               Like
             </Button>{' '}
             <Button
+              disabled={disabled === -1 ? true : false}
               value="-1"
               key="dislike-button"
               variant="contained"
-              color="primary"
+              color={clicked === '-1' ? 'success' : 'primary'}
               onClick={handleVote}
             >
               Dislike
