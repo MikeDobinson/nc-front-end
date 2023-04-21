@@ -5,9 +5,10 @@ import ArticleListCard from './ArticleListCard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function Articles({ isLoading, setIsLoading }) {
-  const [articles, setArticles] = useState([]);
+export default function Articles() {
   const { topic } = useParams();
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);

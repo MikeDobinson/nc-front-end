@@ -7,8 +7,10 @@ import CommentList from './CommentList';
 import Button from '@mui/material/Button';
 import CommentSubmitForm from './CommentSubmitForm';
 
-export default function ArticleCard({ isLoading, setIsLoading }) {
+export default function ArticleCard() {
   const { article_id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [votesToAdd, setVotesToAdd] = useState(0);
   const [article, setArticle] = useState({});
   const [addComment, setAddComment] = useState(false);

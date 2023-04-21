@@ -5,8 +5,11 @@ import * as api from '../api';
 
 export default function Nav() {
   const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     api.fetchTopics().then((topics) => {
+      setIsLoading(false);
       setTopics(topics);
     });
   }, []);
@@ -14,6 +17,7 @@ export default function Nav() {
   return (
     <nav>
       <Link to="/">All</Link>
+      {isLoading ? <p>Loading...</p> : null}
       {topics.map((topic) => {
         return (
           <span key={topic.slug}>

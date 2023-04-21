@@ -1,14 +1,10 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as api from '../api';
 
-export default function CommentList({
-  setIsLoading,
-  isLoading,
-  article_id,
-  comments,
-  setComments,
-}) {
+export default function CommentList({ article_id, comments, setComments }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     api.fetchCommentsByArticleId(article_id).then((comments) => {
