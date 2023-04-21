@@ -32,16 +32,12 @@ export default function CommentSubmitForm({
         });
       setCommentToAdd(true);
       setCommentErrMess('');
+      setUsername('');
+      setCommentBody('');
     } else {
       setCommentErrMess(
         'Please enter all required information before submitting'
       );
-    }
-  };
-
-  const disableButton = (event) => {
-    if (username && commentBody) {
-      event.target.disabled = true;
     }
   };
 
@@ -60,6 +56,7 @@ export default function CommentSubmitForm({
           required
           id="outlined-required"
           label="Username"
+          value={username}
           variant="filled"
           onChange={(event) => {
             setUsername(event.target.value);
@@ -69,6 +66,7 @@ export default function CommentSubmitForm({
           required
           id="filled-multiline-flexible"
           label="Comment"
+          value={commentBody}
           multiline
           maxRows={4}
           variant="filled"
@@ -82,7 +80,7 @@ export default function CommentSubmitForm({
           <h3>{commentErrMess}</h3>
         </div>
       ) : null}
-      <Button onClick={disableButton} type="submit" variant="contained">
+      <Button type="submit" variant="contained">
         Submit
       </Button>
       {commentToAdd ? (
