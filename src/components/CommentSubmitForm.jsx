@@ -13,28 +13,35 @@ export default function CommentSubmitForm({
   const [username, setUsername] = useState('');
   const [commentBody, setCommentBody] = useState('');
   const [commentToAdd, setCommentToAdd] = useState(false);
-  const [commentErrMess, setCommentErrMess] = useState('');
+  const [commentErrMess, setCommentErrMess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setIsLoading(true);
     if (username && commentBody) {
-      const commentObject = {
-        username,
-        body: commentBody,
-      };
       api
-        .postComment(article_id, commentObject)
+        .postComment(article_id, { username, body: commentBody })
         .then((comment) => {
-          setComments([comment, ...comments]);
+          setComments((currComments) => {
+            return [comment, ...currComments];
+          });
         })
-        .catch((err) => {
-          console.log(err);
+        .then(() => {
+          setIsLoading(false);
+          setCommentErrMess(null);
+          setCommentToAdd(true);
+          setUsername('');
+          setCommentBody('');
+        })
+        .catch(() => {
+          setIsLoading(false);
+          setCommentToAdd(false);
+          setCommentErrMess('No user found with that name');
         });
-      setCommentToAdd(true);
-      setCommentErrMess('');
-      setUsername('');
-      setCommentBody('');
     } else {
+      setIsLoading(false);
       setCommentErrMess(
         'Please enter all required information before submitting'
       );
@@ -75,21 +82,25 @@ export default function CommentSubmitForm({
           }}
         />{' '}
       </div>{' '}
-      {commentErrMess ? (
+      {isLoading ? (
         <div>
-          <h3>{commentErrMess}</h3>
+          {' '}
+          <h3> Loading... </h3>{' '}
+        </div>
+      ) : commentErrMess ? (
+        <div>
+          {' '}
+          <h3> {commentErrMess} </h3>{' '}
+        </div>
+      ) : commentToAdd ? (
+        <div>
+          {' '}
+          <h3> Comment Posted! </h3>{' '}
         </div>
       ) : null}
       <Button type="submit" variant="contained">
         Submit
       </Button>
-      {commentToAdd ? (
-        <div>
-          <li key="added-comment">
-            <h3>Comment Posted!</h3>
-          </li>
-        </div>
-      ) : null}
     </Box>
   );
 }

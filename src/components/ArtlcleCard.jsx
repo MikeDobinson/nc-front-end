@@ -114,6 +114,8 @@ export default function ArticleCard() {
           </Button>
           {addComment ? (
             <CommentSubmitForm
+              error={error}
+              setError={setError}
               setComments={setComments}
               article_id={article_id}
               comments={comments}
