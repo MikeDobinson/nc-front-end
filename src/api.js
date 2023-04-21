@@ -29,7 +29,7 @@ export const fetchTopics = () => {
 };
 
 export const fetchArticlesByTopic = (topic) => {
-  return api.get(`/articles?topic=${topic}`).then(({ data }) => {
+  return api.get(`/articles`, { params: { topic } }).then(({ data }) => {
     return data.articles;
   });
 };

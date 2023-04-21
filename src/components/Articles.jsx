@@ -10,12 +10,6 @@ export default function Articles() {
   const { topic } = useParams();
 
   useEffect(() => {
-    api.fetchArticles().then((articles) => {
-      setArticles(articles);
-    });
-  }, []);
-
-  useEffect(() => {
     api.fetchArticlesByTopic(topic).then((articles) => {
       setArticles(articles);
     });
