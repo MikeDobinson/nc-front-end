@@ -1,14 +1,18 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as api from '../api';
 
-export default function CommentList({ article_id, commentToAdd }) {
-  const [comments, setComments] = useState([]);
+export default function CommentList({
+  article_id,
+  commentToAdd,
+  comments,
+  setComments,
+}) {
   useEffect(() => {
     api.fetchCommentsByArticleId(article_id).then((comments) => {
       setComments(comments);
     });
-  }, [article_id]);
+  }, [article_id, setComments]);
 
   if (!comments.length)
     return (
@@ -24,9 +28,8 @@ export default function CommentList({ article_id, commentToAdd }) {
       <ul className="comment-list">
         {commentToAdd ? (
           <div>
-            <li key={commentToAdd.comment_id}>
-              <h3>{commentToAdd.username}</h3>
-              <p>{commentToAdd.body}</p>
+            <li key="added-comment">
+              <h3>Comment Posted!</h3>
             </li>
           </div>
         ) : null}

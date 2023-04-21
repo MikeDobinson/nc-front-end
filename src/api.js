@@ -41,3 +41,11 @@ export const patchArticleVotes = (article_id, vote) => {
       return data.article;
     });
 };
+
+export const postComment = (article_id, commentObject) => {
+  return api
+    .post(`/articles/${article_id}/comments`, commentObject)
+    .then(({ data }) => {
+      return data.comment;
+    });
+};

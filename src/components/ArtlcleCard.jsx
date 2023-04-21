@@ -15,7 +15,7 @@ export default function ArticleCard() {
   const [likeCounter, setLikeCounter] = useState(0);
   const [dislikeCounter, setDislikeCounter] = useState(0);
   const [error, setError] = useState(null);
-  const [commentToAdd, setCommentToAdd] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     api.fetchArticleById(article_id).then((article) => {
@@ -83,6 +83,7 @@ export default function ArticleCard() {
           <h3>{article.title}</h3>
           <p>Written by: {article.author}</p>
           <p>{article.body}</p>
+          <p>Topic: {article.topic}</p>
           <p>Comments: {article.comment_count}</p>
           <p>Likes: {article.votes + votesToAdd}</p>
           <p>
@@ -108,17 +109,24 @@ export default function ArticleCard() {
             <br />
             {error ? <p>{error}</p> : null}
           </p>
-          <p>Topic: {article.topic}</p>
           <Button onClick={handleAddComment} variant="contained">
             Add Comment
           </Button>
           {addComment ? (
-            <CommentSubmitForm setCommentToAdd={setCommentToAdd} />
+            <CommentSubmitForm
+              setComments={setComments}
+              article_id={article_id}
+              comments={comments}
+            />
           ) : null}
           <br />
           <br />
 
-          <CommentList article_id={article_id} commentToAdd={commentToAdd} />
+          <CommentList
+            article_id={article_id}
+            comments={comments}
+            setComments={setComments}
+          />
         </li>
       </ul>
     </div>
