@@ -8,11 +8,11 @@ import * as api from '../api';
 export default function CommentSubmitForm({
   setComments,
   article_id,
-  comments,
+  setCommentToAdd,
+  commentToAdd,
 }) {
   const [username, setUsername] = useState('');
   const [commentBody, setCommentBody] = useState('');
-  const [commentToAdd, setCommentToAdd] = useState(false);
   const [commentErrMess, setCommentErrMess] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 

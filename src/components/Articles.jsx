@@ -5,19 +5,22 @@ import ArticleListCard from './ArticleListCard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-export default function Articles() {
+export default function Articles({ isLoading, setIsLoading }) {
   const [articles, setArticles] = useState([]);
   const { topic } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     api.fetchArticlesByTopic(topic).then((articles) => {
+      setIsLoading(false);
       setArticles(articles);
     });
-  }, [topic]);
+  }, [topic, setIsLoading]);
 
   return (
     <div>
       <h2>Articles</h2>
+      {isLoading ? <p>Loading...</p> : null}
       <ul className="article-list">
         {articles.map((article) => {
           return (

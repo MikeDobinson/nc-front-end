@@ -7,7 +7,7 @@ import CommentList from './CommentList';
 import Button from '@mui/material/Button';
 import CommentSubmitForm from './CommentSubmitForm';
 
-export default function ArticleCard() {
+export default function ArticleCard({ isLoading, setIsLoading }) {
   const { article_id } = useParams();
   const [votesToAdd, setVotesToAdd] = useState(0);
   const [article, setArticle] = useState({});
@@ -16,12 +16,15 @@ export default function ArticleCard() {
   const [dislikeCounter, setDislikeCounter] = useState(0);
   const [error, setError] = useState(null);
   const [comments, setComments] = useState([]);
+  const [commentToAdd, setCommentToAdd] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     api.fetchArticleById(article_id).then((article) => {
+      setIsLoading(false);
       setArticle(article);
     });
-  }, [article_id]);
+  }, [article_id, setIsLoading]);
 
   const handleVote = (event) => {
     const vote = event.target.value;
@@ -78,6 +81,7 @@ export default function ArticleCard() {
       <br />
 
       <h2>Article</h2>
+      {isLoading ? <p>Loading...</p> : null}
       <ul className="article-list">
         <li key={article.article_id}>
           <h3>{article.title}</h3>
@@ -114,17 +118,21 @@ export default function ArticleCard() {
           </Button>
           {addComment ? (
             <CommentSubmitForm
+              commentToAdd={commentToAdd}
+              setCommentToAdd={setCommentToAdd}
               error={error}
               setError={setError}
               setComments={setComments}
               article_id={article_id}
-              comments={comments}
             />
           ) : null}
           <br />
           <br />
 
           <CommentList
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            commentToAdd={commentToAdd}
             article_id={article_id}
             comments={comments}
             setComments={setComments}

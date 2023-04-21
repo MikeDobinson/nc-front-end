@@ -3,13 +3,16 @@ import { useEffect } from 'react';
 import * as api from '../api';
 
 export default function CommentList({
+  setIsLoading,
+  isLoading,
   article_id,
-  commentToAdd,
   comments,
   setComments,
 }) {
   useEffect(() => {
+    setIsLoading(true);
     api.fetchCommentsByArticleId(article_id).then((comments) => {
+      setIsLoading(false);
       setComments(comments);
     });
   }, [article_id, setComments]);
@@ -25,14 +28,8 @@ export default function CommentList({
   return (
     <div>
       <h2>Comments</h2>
+      {isLoading ? <p>Loading...</p> : null}
       <ul className="comment-list">
-        {commentToAdd ? (
-          <div>
-            <li key="added-comment">
-              <h3>Comment Posted!</h3>
-            </li>
-          </div>
-        ) : null}
         {comments.map((comment) => {
           return (
             <li key={comment.comment_id}>
