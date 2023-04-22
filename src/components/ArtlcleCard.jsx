@@ -5,23 +5,34 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import CommentList from './CommentList';
 import Button from '@mui/material/Button';
+import CommentSubmitForm from './CommentSubmitForm';
 
 export default function ArticleCard() {
   const { article_id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [votesToAdd, setVotesToAdd] = useState(0);
   const [article, setArticle] = useState({});
-
-  useEffect(() => {
-    api.fetchArticleById(article_id).then((article) => {
-      setArticle(article);
-    });
-  }, [article_id]);
-
+  const [addComment, setAddComment] = useState(false);
   const [likeCounter, setLikeCounter] = useState(0);
   const [dislikeCounter, setDislikeCounter] = useState(0);
   const [error, setError] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [commentToAdd, setCommentToAdd] = useState(false);
+  const [clicked, setClicked] = useState('');
+  const [disabled, setDisabled] = useState(0);
+
+  useEffect(() => {
+    setIsLoading(true);
+    api.fetchArticleById(article_id).then((article) => {
+      setIsLoading(false);
+      setArticle(article);
+    });
+  }, [article_id, setIsLoading]);
 
   const handleVote = (event) => {
+    changeColour(event.target.value);
+
     const vote = event.target.value;
     const actualVote = () => {
       setVotesToAdd((currVotes) => currVotes + +vote);
@@ -67,34 +78,53 @@ export default function ArticleCard() {
     }
   };
 
+  const changeColour = (value) => {
+    if (clicked !== value) {
+      setClicked(value);
+      setDisabled(value * -1);
+    } else if (clicked === value) {
+      setClicked('');
+      setDisabled(0);
+    }
+    console.log('disabled :>> ', disabled);
+  };
+
+  const handleAddComment = () => {
+    setAddComment((currAddComment) => !currAddComment);
+  };
+
   return (
     <div>
       <br />
 
       <h2>Article</h2>
+      {isLoading ? <p>Loading...</p> : null}
       <ul className="article-list">
         <li key={article.article_id}>
           <h3>{article.title}</h3>
           <p>Written by: {article.author}</p>
           <p>{article.body}</p>
+          <p>Topic: {article.topic}</p>
           <p>Comments: {article.comment_count}</p>
           <p>Likes: {article.votes + votesToAdd}</p>
           <p>
             {' '}
             <Button
+              disabled={disabled === 1 ? true : false}
               value="1"
               key="like-button"
               variant="contained"
-              color="primary"
+              color={clicked === '1' ? 'success' : 'primary'}
               onClick={handleVote}
             >
               Like
             </Button>{' '}
             <Button
+              disabled={disabled === -1 ? true : false}
               value="-1"
               key="dislike-button"
               variant="contained"
-              color="primary"
+              color={clicked === '-1' ? 'success' : 'primary'}
               onClick={handleVote}
             >
               Dislike
@@ -102,8 +132,30 @@ export default function ArticleCard() {
             <br />
             {error ? <p>{error}</p> : null}
           </p>
-          <p>Topic: {article.topic}</p>
-          <CommentList article_id={article_id} />
+          <Button onClick={handleAddComment} variant="contained">
+            Add Comment
+          </Button>
+          {addComment ? (
+            <CommentSubmitForm
+              commentToAdd={commentToAdd}
+              setCommentToAdd={setCommentToAdd}
+              error={error}
+              setError={setError}
+              setComments={setComments}
+              article_id={article_id}
+            />
+          ) : null}
+          <br />
+          <br />
+
+          <CommentList
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            commentToAdd={commentToAdd}
+            article_id={article_id}
+            comments={comments}
+            setComments={setComments}
+          />
         </li>
       </ul>
     </div>

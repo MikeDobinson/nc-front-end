@@ -6,24 +6,22 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function Articles() {
-  const [articles, setArticles] = useState([]);
   const { topic } = useParams();
+  const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    api.fetchArticles().then((articles) => {
-      setArticles(articles);
-    });
-  }, []);
-
-  useEffect(() => {
+    setIsLoading(true);
     api.fetchArticlesByTopic(topic).then((articles) => {
+      setIsLoading(false);
       setArticles(articles);
     });
-  }, [topic]);
+  }, [topic, setIsLoading]);
 
   return (
     <div>
       <h2>Articles</h2>
+      {isLoading ? <p>Loading...</p> : null}
       <ul className="article-list">
         {articles.map((article) => {
           return (

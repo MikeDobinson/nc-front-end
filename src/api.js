@@ -29,7 +29,7 @@ export const fetchTopics = () => {
 };
 
 export const fetchArticlesByTopic = (topic) => {
-  return api.get(`/articles?topic=${topic}`).then(({ data }) => {
+  return api.get(`/articles`, { params: { topic } }).then(({ data }) => {
     return data.articles;
   });
 };
@@ -39,5 +39,13 @@ export const patchArticleVotes = (article_id, vote) => {
     .patch(`/articles/${article_id}`, { inc_votes: vote })
     .then(({ data }) => {
       return data.article;
+    });
+};
+
+export const postComment = (article_id, commentObject) => {
+  return api
+    .post(`/articles/${article_id}/comments`, commentObject)
+    .then(({ data }) => {
+      return data.comment;
     });
 };
